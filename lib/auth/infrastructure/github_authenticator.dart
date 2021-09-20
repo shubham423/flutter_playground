@@ -1,13 +1,18 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_playground/auth/domain/auth_failure.dart';
 import 'package:flutter_playground/auth/infrastructure/credential_storage/credential_storage.dart';
+import 'package:flutter_playground/core/infrastructure/dio_extensions.dart';
+import 'package:flutter_playground/core/shared/logger.dart';
 import 'package:flutter_playground/core/shared/encoders.dart';
 import 'package:oauth2/oauth2.dart';
 import 'package:http/http.dart' as http;
+
+final log = logger;
 
 class GithubOAuthHttpClient extends http.BaseClient {
   final httpClient = http.Client();
@@ -43,7 +48,8 @@ class GithubAuthenticator {
       final storedCredentials = await _credentialsStorage.read();
       if (storedCredentials != null) {
         if (storedCredentials.canRefresh && storedCredentials.isExpired) {
-          //TODO refresh
+          final failureOrCredentials = await refresh(storedCredentials);
+          return failureOrCredentials.fold((l) => null, (r) => r);
         }
       }
       return storedCredentials;
@@ -95,19 +101,48 @@ class GithubAuthenticator {
         stringToBase64.encode('$clientId:$clientSecrets');
 
     try {
-      _dio.deleteUri(
-        revocationEndpoint,
-        data: {
-          'access_token': accessToken,
-        },
-        options: Options(
-          headers: {
-            'Authorization': 'basic $usernameAndPassword',
+      try {
+        _dio.deleteUri(
+          revocationEndpoint,
+          data: {
+            'access_token': accessToken,
           },
-        ),
-      );
+          options: Options(
+            headers: {
+              'Authorization': 'basic $usernameAndPassword',
+            },
+          ),
+        );
+      } on DioError catch (e) {
+        if (e.isNoConnectioError) {
+          log.d('Token not revoked');
+        } else {
+          rethrow;
+        }
+      }
+
       await _credentialsStorage.clear();
       return right(unit);
+    } on PlatformException {
+      return left(const AuthFailure.storage());
+    }
+  }
+
+  Future<Either<AuthFailure, Credentials>> refresh(
+    Credentials credentials,
+  ) async {
+    try {
+      final refreshedCredentials = await credentials.refresh(
+        identifier: clientId,
+        secret: clientSecrets,
+        httpClient: GithubOAuthHttpClient(),
+      );
+      await _credentialsStorage.save(refreshedCredentials);
+      return right(refreshedCredentials);
+    } on FormatException {
+      return left(const AuthFailure.server());
+    } on AuthorizationException catch (e) {
+      return left(AuthFailure.server('${e.error}: ${e.description}'));
     } on PlatformException {
       return left(const AuthFailure.storage());
     }
