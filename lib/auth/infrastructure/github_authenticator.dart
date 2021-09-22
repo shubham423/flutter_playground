@@ -84,11 +84,15 @@ class GithubAuthenticator {
       await _credentialsStorage.save(httpClient.credentials);
       return right(unit);
     } on FormatException {
-      return left(const AuthFailure.server());
+      return left(
+        const AuthFailure.server(),
+      );
     } on AuthorizationException catch (e) {
       return left(AuthFailure.server('${e.error}: ${e.description}'));
     } on PlatformException {
-      return left(const AuthFailure.storage());
+      return left(
+        const AuthFailure.storage(),
+      );
     }
   }
 
@@ -124,7 +128,9 @@ class GithubAuthenticator {
       await _credentialsStorage.clear();
       return right(unit);
     } on PlatformException {
-      return left(const AuthFailure.storage());
+      return left(
+        const AuthFailure.storage(),
+      );
     }
   }
 
@@ -140,11 +146,17 @@ class GithubAuthenticator {
       await _credentialsStorage.save(refreshedCredentials);
       return right(refreshedCredentials);
     } on FormatException {
-      return left(const AuthFailure.server());
+      return left(
+        const AuthFailure.server(),
+      );
     } on AuthorizationException catch (e) {
-      return left(AuthFailure.server('${e.error}: ${e.description}'));
+      return left(
+        AuthFailure.server('${e.error}: ${e.description}'),
+      );
     } on PlatformException {
-      return left(const AuthFailure.storage());
+      return left(
+        const AuthFailure.storage(),
+      );
     }
   }
 }
