@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter_playground/auth/infrastructure/credential_storage/credential_storage.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:oauth2/oauth2.dart';

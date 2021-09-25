@@ -8,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 final flutterSecureStorageProvider = Provider(
   (ref) => const FlutterSecureStorage(),
 );
+
 final credentialsStorageProvider = Provider(
   (ref) => SecureCredentialsStorage(
     ref.watch(flutterSecureStorageProvider),
@@ -17,6 +18,7 @@ final credentialsStorageProvider = Provider(
 final dioProvider = Provider(
   (ref) => Dio(),
 );
+
 final githubAuthenticatorProvider = Provider(
   (ref) => GithubAuthenticator(
     ref.watch(credentialsStorageProvider),
