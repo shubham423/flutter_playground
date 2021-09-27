@@ -16,6 +16,9 @@ class AppWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // ref.listen(authNotifierProvider,(state){
+
+    // });
     return ProviderListener(
       provider: initializationProvider,
       onChange: (context, value) {},
