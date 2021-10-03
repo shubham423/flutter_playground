@@ -20,6 +20,7 @@ dependencies:
   logger: ^1.1.0
   flutter_riverpod: ^1.0.0-dev.7
   material_design_icons_flutter: ^5.0.5955-rc.1
+  json_annotation: ^4.1.0
   
 
 dev_dependencies:
@@ -29,6 +30,7 @@ dev_dependencies:
   freezed: ^0.14.2
   auto_route_generator: ^2.1.0
   flutter_lints: ^1.0.4
+  json_serializable: ^5.0.2
 
 
 
