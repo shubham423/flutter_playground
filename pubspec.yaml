@@ -21,6 +21,9 @@ dependencies:
   flutter_riverpod: ^1.0.0-dev.7
   material_design_icons_flutter: ^5.0.5955-rc.1
   json_annotation: ^4.1.0
+  path: ^1.8.0
+  path_provider: ^2.0.2
+  sembast: ^3.1.0
   
 
 dev_dependencies:
