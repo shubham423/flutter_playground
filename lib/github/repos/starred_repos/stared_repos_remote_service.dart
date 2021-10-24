@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_playground/core/infrastructure/network_exceptions.dart';
 import 'package:flutter_playground/core/infrastructure/remote_response.dart';
+import 'package:flutter_playground/github/core/infrastrucure/github_headers.dart';
 import 'package:flutter_playground/github/core/infrastrucure/github_headers_cache.dart';
 import 'package:flutter_playground/github/core/infrastrucure/github_repo_dto.dart';
 
@@ -36,6 +37,19 @@ class StarredReposRemoteService {
           },
         ),
       );
+
+      if (response.statusCode == 304) {
+        return RemoteResponse.notModified();
+      } else if (response.statusCode == 200) {
+        final headers = GithubHeaders.parse(response);
+        await _headersCache.saveHeaders(requestUri, headers);
+        final convertedDate = (response.data as List<dynamic>)
+            .map((e) => GithubRepoDTO.fromJson(e as Map<String, dynamic>))
+            .toList();
+        return RemoteResponse.withNewData(convertedDate);
+      } else {
+        throw RestApiException(response.statusCode);
+      }
     } on DioError catch (e) {
       if (e.isNoConnectionError) {
         return RemoteResponse.noConnection();
