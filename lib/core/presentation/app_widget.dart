@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_playground/auth/application/auth_notifier.dart';
 import 'package:flutter_playground/auth/presentation/routes/app_router.gr.dart';
 import 'package:flutter_playground/auth/shared/providers.dart';
+import 'package:flutter_playground/core/shared/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final initializationProvider = FutureProvider<Unit>((ref) async {
+  ref.read(sembastProvider).init();
   final authNotifier = ref.read(authNotifierProvider.notifier);
   await authNotifier.checkAndUpdateAuthStatus();
   return unit;
