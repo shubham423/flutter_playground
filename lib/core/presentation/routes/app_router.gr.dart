@@ -7,10 +7,11 @@
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
-import '../../../github/repos/starred_repos/starred_repos_page.dart' as _i6;
+import '../../../auth/presentation/authorization_page.dart' as _i5;
+import '../../../auth/presentation/sign_in_page.dart' as _i4;
+import '../../../github/repos/starred_repos/presentation/starred_repos_page.dart'
+    as _i6;
 import '../../../splash/presentation/splash_page.dart' as _i3;
-import '../authorization_page.dart' as _i5;
-import '../sign_in_page.dart' as _i4;
 
 class AppRouter extends _i1.RootStackRouter {
   AppRouter([_i2.GlobalKey<_i2.NavigatorState>? navigatorKey])

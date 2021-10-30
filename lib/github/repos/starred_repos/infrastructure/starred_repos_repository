@@ -1,0 +1,12 @@
+
+class StarredReposRepository {
+  final StarredReposRemoteService _remoteService;
+  
+  StarredReposRepository(
+    this._remoteService,
+  );
+
+  Future<Either<GithubFailure, Fresh<List<GithubRepo>>>> getStarredReposPage(
+      int page) async {
+}
+

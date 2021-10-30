@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_playground/auth/application/auth_notifier.dart';
-import 'package:flutter_playground/auth/presentation/routes/app_router.gr.dart';
+import 'package:flutter_playground/core/presentation/routes/app_router.gr.dart';
 import 'package:flutter_playground/auth/shared/providers.dart';
 import 'package:flutter_playground/core/shared/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

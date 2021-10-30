@@ -17,7 +17,7 @@ class StarredReposRemoteService {
   Future<RemoteResponse<List<GithubRepoDTO>>> getStarredReposPage(
     int page,
   ) async {
-    const token = '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';
+    
     const accept = 'application/vnd.github.v3.html+json';
     final requestUri = Uri.https(
       'api.github.com',
@@ -39,20 +39,27 @@ class StarredReposRemoteService {
       );
 
       if (response.statusCode == 304) {
-        return RemoteResponse.notModified();
+        return RemoteResponse.notModified(
+          maxPage: previousHeaders?.link?.maxPage ?? 0,
+        );
       } else if (response.statusCode == 200) {
         final headers = GithubHeaders.parse(response);
         await _headersCache.saveHeaders(requestUri, headers);
         final convertedDate = (response.data as List<dynamic>)
             .map((e) => GithubRepoDTO.fromJson(e as Map<String, dynamic>))
             .toList();
-        return RemoteResponse.withNewData(convertedDate);
+        return RemoteResponse.withNewData(
+          convertedDate,
+          maxPage: previousHeaders?.link?.maxPage ?? 1,
+        );
       } else {
         throw RestApiException(response.statusCode);
       }
     } on DioError catch (e) {
       if (e.isNoConnectionError) {
-        return RemoteResponse.noConnection();
+        return RemoteResponse.noConnection(
+          maxPage: previousHeaders?.link?.maxPage ?? 0,
+        );
       } else if (e.response != null) {
         throw RestApiException(e.response?.statusCode);
       } else {
