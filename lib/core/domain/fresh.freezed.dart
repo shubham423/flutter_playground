@@ -17,11 +17,16 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$FreshTearOff {
   const _$FreshTearOff();
 
-  _Fresh<T> call<T>({required T entity, required bool isFresh, int? maxPage}) {
+  _Fresh<T> call<T>(
+      {required T entity,
+      required bool isFresh,
+      int? maxPage,
+      bool? isNextPageAvailable}) {
     return _Fresh<T>(
       entity: entity,
       isFresh: isFresh,
       maxPage: maxPage,
+      isNextPageAvailable: isNextPageAvailable,
     );
   }
 }
@@ -34,6 +39,7 @@ mixin _$Fresh<T> {
   T get entity => throw _privateConstructorUsedError;
   bool get isFresh => throw _privateConstructorUsedError;
   int? get maxPage => throw _privateConstructorUsedError;
+  bool? get isNextPageAvailable => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FreshCopyWith<T, Fresh<T>> get copyWith =>
@@ -44,7 +50,7 @@ mixin _$Fresh<T> {
 abstract class $FreshCopyWith<T, $Res> {
   factory $FreshCopyWith(Fresh<T> value, $Res Function(Fresh<T>) then) =
       _$FreshCopyWithImpl<T, $Res>;
-  $Res call({T entity, bool isFresh, int? maxPage});
+  $Res call({T entity, bool isFresh, int? maxPage, bool? isNextPageAvailable});
 }
 
 /// @nodoc
@@ -60,6 +66,7 @@ class _$FreshCopyWithImpl<T, $Res> implements $FreshCopyWith<T, $Res> {
     Object? entity = freezed,
     Object? isFresh = freezed,
     Object? maxPage = freezed,
+    Object? isNextPageAvailable = freezed,
   }) {
     return _then(_value.copyWith(
       entity: entity == freezed
@@ -74,6 +81,10 @@ class _$FreshCopyWithImpl<T, $Res> implements $FreshCopyWith<T, $Res> {
           ? _value.maxPage
           : maxPage // ignore: cast_nullable_to_non_nullable
               as int?,
+      isNextPageAvailable: isNextPageAvailable == freezed
+          ? _value.isNextPageAvailable
+          : isNextPageAvailable // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -83,7 +94,7 @@ abstract class _$FreshCopyWith<T, $Res> implements $FreshCopyWith<T, $Res> {
   factory _$FreshCopyWith(_Fresh<T> value, $Res Function(_Fresh<T>) then) =
       __$FreshCopyWithImpl<T, $Res>;
   @override
-  $Res call({T entity, bool isFresh, int? maxPage});
+  $Res call({T entity, bool isFresh, int? maxPage, bool? isNextPageAvailable});
 }
 
 /// @nodoc
@@ -100,6 +111,7 @@ class __$FreshCopyWithImpl<T, $Res> extends _$FreshCopyWithImpl<T, $Res>
     Object? entity = freezed,
     Object? isFresh = freezed,
     Object? maxPage = freezed,
+    Object? isNextPageAvailable = freezed,
   }) {
     return _then(_Fresh<T>(
       entity: entity == freezed
@@ -114,6 +126,10 @@ class __$FreshCopyWithImpl<T, $Res> extends _$FreshCopyWithImpl<T, $Res>
           ? _value.maxPage
           : maxPage // ignore: cast_nullable_to_non_nullable
               as int?,
+      isNextPageAvailable: isNextPageAvailable == freezed
+          ? _value.isNextPageAvailable
+          : isNextPageAvailable // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -121,7 +137,11 @@ class __$FreshCopyWithImpl<T, $Res> extends _$FreshCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$_Fresh<T> extends _Fresh<T> {
-  const _$_Fresh({required this.entity, required this.isFresh, this.maxPage})
+  const _$_Fresh(
+      {required this.entity,
+      required this.isFresh,
+      this.maxPage,
+      this.isNextPageAvailable})
       : super._();
 
   @override
@@ -130,10 +150,12 @@ class _$_Fresh<T> extends _Fresh<T> {
   final bool isFresh;
   @override
   final int? maxPage;
+  @override
+  final bool? isNextPageAvailable;
 
   @override
   String toString() {
-    return 'Fresh<$T>(entity: $entity, isFresh: $isFresh, maxPage: $maxPage)';
+    return 'Fresh<$T>(entity: $entity, isFresh: $isFresh, maxPage: $maxPage, isNextPageAvailable: $isNextPageAvailable)';
   }
 
   @override
@@ -146,7 +168,11 @@ class _$_Fresh<T> extends _Fresh<T> {
                 const DeepCollectionEquality()
                     .equals(other.isFresh, isFresh)) &&
             (identical(other.maxPage, maxPage) ||
-                const DeepCollectionEquality().equals(other.maxPage, maxPage)));
+                const DeepCollectionEquality()
+                    .equals(other.maxPage, maxPage)) &&
+            (identical(other.isNextPageAvailable, isNextPageAvailable) ||
+                const DeepCollectionEquality()
+                    .equals(other.isNextPageAvailable, isNextPageAvailable)));
   }
 
   @override
@@ -154,7 +180,8 @@ class _$_Fresh<T> extends _Fresh<T> {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(entity) ^
       const DeepCollectionEquality().hash(isFresh) ^
-      const DeepCollectionEquality().hash(maxPage);
+      const DeepCollectionEquality().hash(maxPage) ^
+      const DeepCollectionEquality().hash(isNextPageAvailable);
 
   @JsonKey(ignore: true)
   @override
@@ -164,7 +191,10 @@ class _$_Fresh<T> extends _Fresh<T> {
 
 abstract class _Fresh<T> extends Fresh<T> {
   const factory _Fresh(
-      {required T entity, required bool isFresh, int? maxPage}) = _$_Fresh<T>;
+      {required T entity,
+      required bool isFresh,
+      int? maxPage,
+      bool? isNextPageAvailable}) = _$_Fresh<T>;
   const _Fresh._() : super._();
 
   @override
@@ -173,6 +203,8 @@ abstract class _Fresh<T> extends Fresh<T> {
   bool get isFresh => throw _privateConstructorUsedError;
   @override
   int? get maxPage => throw _privateConstructorUsedError;
+  @override
+  bool? get isNextPageAvailable => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$FreshCopyWith<T, _Fresh<T>> get copyWith =>
